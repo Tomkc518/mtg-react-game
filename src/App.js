@@ -13,7 +13,8 @@ class App extends Component {
     images,
     score: 0,
     topscore: 0,
-    instructions: "Click an Image to Begin!"
+    instructions: "Click an Image to Begin!",
+    click: []
   };
 
   shuffleImages = () => {
@@ -22,6 +23,29 @@ class App extends Component {
     .sort((imageOne, imageTwo) => imageOne[0] - imageTwo[0])
     .map(image => image[1]);
     this.setState({images: newImagesArr});
+  }
+
+  scoreGenerator = id => {
+    const images = this.state.images;
+    const clicked = images.filter(image => image.id === id);
+    
+    if (this.state.click.indexOf(clicked[0].id) === -1){
+      this.setState({score: this.state.score + 1 });
+      this.setState({instructions: "You Guessed Correctly!"});
+      this.setState({click: [...this.state.click, id]})
+    } else {
+      this.setState({score: 0});
+      this.setState({click: []});
+      this.setState({instructions: "You Guessed Incorrectly!"});
+      if (this.state.score >= this.state.topscore){
+        this.setState({topscore: this.state.score});
+      }
+    }
+    if (this.state.topscore === 12){
+      this.setState({instructions: "You're a Winner!"})
+      this.setState({topscore: 0})
+    }
+    this.shuffleImages();
   }
 
   render() {
@@ -36,7 +60,7 @@ class App extends Component {
               key={image.id}
               name={image.name}
               image={image.image}
-              shuffleImages={this.shuffleImages}
+              scoreGenerator={this.scoreGenerator}
             />
           ))}
         </ImageBody>
