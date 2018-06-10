@@ -1,0 +1,15 @@
+.jumbotron {
+    background-color: #ffe11a;
+    padding-top: 6rem;
+    padding-bottom: 4rem;
+}
+
+.jumboText {
+    background-color: #1f8a70;
+    box-shadow: 8px 8px 8px black;
+    color: white;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px black;
+}
