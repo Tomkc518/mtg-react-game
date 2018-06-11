@@ -29,23 +29,29 @@ class App extends Component {
   scoreGenerator = id => {
     const images = this.state.images;
     const clicked = images.filter(image => image.id === id);
+    let currentScore = this.state.score;
+    let currentTopscore = this.state.topscore;
     this.setState({jiggle: false});
+    
     if (this.state.click.indexOf(clicked[0].id) === -1){
-      this.setState({score: this.state.score + 1 });
+      currentScore += 1;
+      currentTopscore += 1;
+      this.setState({score: this.state.score + 1 })
       this.setState({instructions: "You Guessed Correctly!"});
       this.setState({click: [...this.state.click, id]})
+      if (currentScore >= currentTopscore){
+        this.setState({topscore: currentScore});
+      }
     } else {
       this.setState({score: 0});
       this.setState({click: []});
       this.setState({instructions: "You Guessed Incorrectly!"});
       this.setState({jiggle: true});
-      if (this.state.score >= this.state.topscore){
-        this.setState({topscore: this.state.score});
-      }
     }
-    if (this.state.topscore === 12){
-      this.setState({instructions: "You're a Winner!"})
-      this.setState({topscore: 0})
+    if (currentTopscore === 12){
+      this.setState({instructions: "You're a Winner!"});
+      this.setState({topscore: 0});
+      this.setState({score: 0});
     }
     this.shuffleImages();
   }
