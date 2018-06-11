@@ -14,7 +14,8 @@ class App extends Component {
     score: 0,
     topscore: 0,
     instructions: "Click an Image to Begin!",
-    click: []
+    click: [],
+    jiggle: false
   };
 
   shuffleImages = () => {
@@ -28,7 +29,7 @@ class App extends Component {
   scoreGenerator = id => {
     const images = this.state.images;
     const clicked = images.filter(image => image.id === id);
-    
+    this.setState({jiggle: false});
     if (this.state.click.indexOf(clicked[0].id) === -1){
       this.setState({score: this.state.score + 1 });
       this.setState({instructions: "You Guessed Correctly!"});
@@ -37,6 +38,7 @@ class App extends Component {
       this.setState({score: 0});
       this.setState({click: []});
       this.setState({instructions: "You Guessed Incorrectly!"});
+      this.setState({jiggle: true});
       if (this.state.score >= this.state.topscore){
         this.setState({topscore: this.state.score});
       }
@@ -61,6 +63,7 @@ class App extends Component {
               name={image.name}
               image={image.image}
               scoreGenerator={this.scoreGenerator}
+              className={this.state.jiggle ? "hvr-wobble-horizontal" : ""}
             />
           ))}
         </ImageBody>
