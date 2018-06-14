@@ -100,3 +100,10 @@ img:hover {
     -webkit-animation-iteration-count: 1;
     animation-iteration-count: 1;
   }
+
+  @media screen and (max-width: 736px) {
+    img {
+      height: 100px;
+      width: 100px;
+    }
+  }

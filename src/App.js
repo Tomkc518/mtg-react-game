@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import Navbar from './components/NavBar/Navbar.js'
-import Jumbotron from './components/Jumbotron/Jumbotron.js'
-import ImageBody from './components/ImageBody/ImageBody.js'
-import Images from './components/Images/Images.js'
+import Navbar from './components/NavBar/Navbar.js';
+import Jumbotron from './components/Jumbotron/Jumbotron.js';
+import ImageBody from './components/ImageBody/ImageBody.js';
+import Images from './components/Images/Images.js';
 import images from "./images.json";
-import Footer from './components/Footer/Footer.js'
+import Footer from './components/Footer/Footer.js';
+import Modal from 'react-responsive-modal';
 
 class App extends Component {
 
@@ -14,7 +15,8 @@ class App extends Component {
     topscore: 0,
     instructions: "Click an Image to Begin!",
     click: [],
-    jiggle: false
+    jiggle: false,
+    showModal: false
   };
 
   shuffleImages = () => {
@@ -51,11 +53,21 @@ class App extends Component {
       this.setState({instructions: "You're a Winner!"});
       this.setState({topscore: 0});
       this.setState({score: 0});
+      this.handleOpenModal();
     }
     this.shuffleImages();
   }
 
+  handleOpenModal = () => {
+    this.setState({ showModal: true });
+  }
+
+  handleCloseModal = () => {
+    this.setState({ showModal: false });
+  }
+
   render() {
+    const { showModal } = this.state;
     return (
       <div>
         <Navbar instructions={this.state.instructions} score={this.state.score} topscore={this.state.topscore}/>
@@ -73,6 +85,13 @@ class App extends Component {
           ))}
         </ImageBody>
         <Footer />
+        <Modal open={showModal} onClose={this.handleCloseModal} center>
+          <h2>You're a Winner!</h2>
+          <hr />
+          <h4>If you would like to Play again simply click on another Image!</h4>
+          <br />
+          <button onClick={this.handleCloseModal}>Close</button>
+        </Modal>
       </div>
     );
   }
